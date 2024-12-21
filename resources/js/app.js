@@ -32,8 +32,10 @@ createInertiaApp({
       .use(ZiggyVue)
       .use(Quasar, {
         plugins: { Notify, Loading, Dialog },
-        framework: {
-          iconSet: 'material-icons-outlined', // Change this to use the outlined icon set
+        config: {
+          framework: {
+            iconSet: 'material-icons-outlined', // Change this to use the outlined icon set
+          }
         }
       })
       .component('i-head', Head)

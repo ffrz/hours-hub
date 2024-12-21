@@ -5,7 +5,6 @@ import { router, usePage } from "@inertiajs/vue3";
 import { handleFetchItems, handleDelete } from "@/helpers/client-req-handler";
 import { create_options } from "@/helpers/utils";
 
-const roles = [{ value: 'all', label: 'Semua' }, ...create_options(window.CONSTANTS.USER_ROLES)];
 const statuses = [
   { value: 'all', label: 'Semua' },
   { value: 'active', label: 'Aktif' },
@@ -14,7 +13,7 @@ const statuses = [
 
 const page = usePage();
 const currentUser = page.props.auth.user;
-const title = "Pengguna";
+const title = "Klien";
 const $q = useQuasar();
 const tableRef = ref(null);
 const rows = ref([]);
@@ -29,22 +28,22 @@ const pagination = ref({
   page: 1,
   rowsPerPage: 10,
   rowsNumber: 10,
-  sortBy: "username",
+  sortBy: "name",
   descending: false,
 });
 
 const columns = [{
-  name: "username",
-  label: "Username",
-  field: "username",
-  align: "left",
-  sortable: true
-}, {
   name: "name",
   label: "Nama",
   field: "name",
   align: "left",
   sortable: true
+}, {
+  name: "phone",
+  label: "Telepon",
+  field: "phone",
+  align: "left",
+  sortable: true,
 }, {
   name: "email",
   label: "Email",
@@ -52,10 +51,10 @@ const columns = [{
   align: "left",
   sortable: true,
 }, {
-  name: "role",
-  label: "Hak Akses",
-  field: "role",
-  align: "center",
+  name: "address",
+  label: "Alamat",
+  field: "address",
+  align: "left",
   sortable: true,
 }, {
   name: "action",
@@ -64,7 +63,7 @@ const columns = [{
 }];
 
 onMounted(() => {
-  const savedFilter = localStorage.getItem('fixsync.users.filter');
+  const savedFilter = localStorage.getItem('fixsync.client.filter');
   if (savedFilter) {
     Object.assign(filter, JSON.parse(savedFilter));
   }
@@ -72,17 +71,17 @@ onMounted(() => {
 });
 
 watch(filter, (newValue) => {
-  localStorage.setItem('fixsync.users.filter', JSON.stringify(newValue));
+  localStorage.setItem('fixsync.client.filter', JSON.stringify(newValue));
 }, { deep: true });
 
 const onFilterChange = () => fetchItems();
 
 const fetchItems = (props = null) =>
-  handleFetchItems({ pagination, props, rows, loading, filter, url: route('admin.user.data') });
+  handleFetchItems({ pagination, props, rows, loading, filter, url: route('admin.client.data') });
 
 const deleteItem = (row) => handleDelete({
-  url: route('admin.user.delete', row.id),
-  title: `Hapus pengguna ${row.name}?`,
+  url: route('admin.client.delete', row.id),
+  title: `Hapus client ${row.name}?`,
   fetchItemsCallback: fetchItems,
   loading,
 });
@@ -104,7 +103,7 @@ const deleteItem = (row) => handleDelete({
         <template #top>
           <div class="col">
             <div class="row q-my-sm items-center">
-              <q-btn color="primary" icon="add" @click="router.get(route('admin.user.add'))" label="Tambah">
+              <q-btn color="primary" icon="add" @click="router.get(route('admin.client.add'))" label="Tambah">
                 <q-tooltip>Tambah Pengguna</q-tooltip>
               </q-btn>
               <q-space />
@@ -116,8 +115,6 @@ const deleteItem = (row) => handleDelete({
             </div>
             <div class="row q-my-sm q-gutter-sm items-center">
               <span>Filter:</span>
-              <q-select v-model="filter.role" :options="roles" label="Role" dense map-options emit-value outlined
-                style="min-width: 150px;" @update:model-value="onFilterChange" />
               <q-select v-model="filter.status" :options="statuses" label="Status" dense map-options emit-value outlined
                 style="min-width: 150px;" @update:model-value="onFilterChange" />
             </div>
@@ -138,20 +135,21 @@ const deleteItem = (row) => handleDelete({
             <q-td key="name" :props="props">
               {{ props.row.name }}
             </q-td>
+            <q-td key="phone" :props="props">
+              {{ props.row.phone }}
+            </q-td>
+            <q-td key="address" :props="props">
+              {{ props.row.address }}
+            </q-td>
             <q-td key="email" :props="props">
               {{ props.row.email }}
             </q-td>
-            <q-td key="role" :props="props" align="center">
-              <span>{{ $CONSTANTS.USER_ROLES[props.row.role] }}</span>
-            </q-td>
             <q-td key="action" class="q-gutter-x-sm" :props="props" align="center">
-              <q-btn :disable="props.row.id == currentUser.id || props.row.email == 'admin@example.com'" rounded dense
-                flat icon="edit" @click="router.get(route('admin.user.edit', props.row.id))">
-                <q-tooltip>Edit Pengguna</q-tooltip>
+              <q-btn rounded dense flat @click="router.get(route('admin.client.edit', props.row.id))" icon="edit">
+                <q-tooltip>Edit Klien</q-tooltip>
               </q-btn>
-              <q-btn :disable="props.row.id == currentUser.id || props.row.email == 'admin@example.com'" rounded dense
-                flat icon="delete" @click="deleteItem(props.row)">
-                <q-tooltip>Hapus Pengguna</q-tooltip>
+              <q-btn rounded dense flat icon="delete" @click="deleteItem(props.row)">
+                <q-tooltip>Hapus Klien</q-tooltip>
               </q-btn>
             </q-td>
           </q-tr>

@@ -90,7 +90,6 @@ class UserController extends Controller
         $message = '';
         $fields = ['name', 'username', 'email', 'role', 'active'];
         $password = $request->get('password');
-        $companyId = Auth::user()->company_id;
         if (!$request->id) {
             $rules['username'] = "required|alpha_num|max:255|unique:users,username,NULL,id";
             $request->validate($rules, $messages);

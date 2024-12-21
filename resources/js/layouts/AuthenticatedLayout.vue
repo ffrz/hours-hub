@@ -54,7 +54,8 @@ onUnmounted(() => {
             :class="{ 'profile-btn-active': isDropdownOpen }">
             <q-list id="profile-btn-popup" style="color:#444">
               <q-item>
-                <q-avatar style="margin-left: -15px;"><q-icon name="person" /></q-avatar>
+                <q-avatar style="margin-left: -15px;"><q-icon
+                    class="material-symbols-outlined">person</q-icon></q-avatar>
                 <q-item-section>
                   <q-item-label>
                     <div class="text-bold"> {{ page.props.auth.user.name }} </div>
@@ -69,10 +70,11 @@ onUnmounted(() => {
                 :active="$page.url.startsWith('/admin/settings/profile')"
                 @click="router.get(route('admin.profile.edit'))">
                 <q-item-section>
-                  <q-item-label><q-icon name="manage_accounts" class="q-mr-sm" /> Profil Saya</q-item-label>
+                  <q-item-label>
+                    <q-icon class="material-symbols-outlined q-mr-sm">account_circle</q-icon> Profil Saya
+                  </q-item-label>
                 </q-item-section>
               </q-item>
-              <q-separator />
               <q-item dense clickable v-close-popup v-ripple @click="router.post(route('admin.auth.logout'))">
                 <q-item-section>
                   <q-item-label><q-icon name="logout" class="q-mr-sm" /> Logout</q-item-label>
@@ -87,6 +89,15 @@ onUnmounted(() => {
       </div>
       <q-scroll-area style="height: calc(100% - 50px); margin-top: 50px;">
         <q-list id="main-nav" style="margin-bottom: 50px;">
+          <q-item clickable v-ripple :active="$page.url == '/admin/time-tracker'"
+            @click="router.get(route('admin.time-tracker.index'))">
+            <q-item-section avatar>
+              <q-icon class="material-icons-outlined">timer</q-icon>
+            </q-item-section>
+            <q-item-section>
+              <q-item-label>Time Tracker</q-item-label>
+            </q-item-section>
+          </q-item>
           <q-item clickable v-ripple :active="$page.url == '/admin/dashboard'"
             @click="router.get(route('admin.dashboard'))">
             <q-item-section avatar>
@@ -96,10 +107,19 @@ onUnmounted(() => {
               <q-item-label>Dashboard</q-item-label>
             </q-item-section>
           </q-item>
-          <q-item v-if="check_role('admin')" clickable v-ripple
-            :active="$page.url.startsWith('/admin/settings/users')" @click="router.get(route('admin.user.index'))">
+          <q-item v-if="check_role('admin')" clickable v-ripple :active="$page.url.startsWith('/admin/clients')"
+            @click="router.get(route('admin.client.index'))">
             <q-item-section avatar>
-              <q-icon name="group" />
+              <q-icon class="material-symbols-outlined">apartment</q-icon>
+            </q-item-section>
+            <q-item-section>
+              <q-item-label>Klien</q-item-label>
+            </q-item-section>
+          </q-item>
+          <q-item v-if="check_role('admin')" clickable v-ripple :active="$page.url.startsWith('/admin/settings/users')"
+            @click="router.get(route('admin.user.index'))">
+            <q-item-section avatar>
+              <q-icon class="material-symbols-outlined">group</q-icon>
             </q-item-section>
             <q-item-section>
               <q-item-label>Pengguna</q-item-label>
@@ -108,7 +128,7 @@ onUnmounted(() => {
           <q-item clickable v-ripple :active="$page.url.startsWith('/admin/settings/profile')"
             @click="router.get(route('admin.profile.edit'))">
             <q-item-section avatar>
-              <q-icon name="manage_accounts" />
+              <q-icon class="material-symbols-outlined">account_circle</q-icon>
             </q-item-section>
             <q-item-section>
               <q-item-label>Profil Saya</q-item-label>

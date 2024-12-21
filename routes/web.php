@@ -1,9 +1,11 @@
 <?php
 
 use App\Http\Controllers\Admin\AuthController;
+use App\Http\Controllers\Admin\ClientController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\ProfileController;
+use App\Http\Controllers\Admin\TimeTrackerController;
 use App\Http\Middleware\Auth;
 use App\Http\Middleware\NonAuthenticated;
 use Illuminate\Foundation\Application;
@@ -37,6 +39,24 @@ Route::middleware([Auth::class])->group(function () {
         Route::get('about', function () {
             return inertia('admin/About');
         })->name('admin.about');
+
+        Route::prefix('clients')->group(function () {
+            Route::get('', [ClientController::class, 'index'])->name('admin.client.index');
+            Route::get('data', [ClientController::class, 'data'])->name('admin.client.data');
+            Route::get('add', [ClientController::class, 'editor'])->name('admin.client.add');
+            Route::get('edit/{id}', [ClientController::class, 'editor'])->name('admin.client.edit');
+            Route::post('save', [ClientController::class, 'save'])->name('admin.client.save');
+            Route::post('delete/{id}', [ClientController::class, 'delete'])->name('admin.client.delete');
+        });
+
+        Route::prefix('time-tracker')->group(function () {
+            Route::get('', [TimeTrackerController::class, 'index'])->name('admin.time-tracker.index');
+            Route::get('data', [TimeTrackerController::class, 'data'])->name('admin.time-tracker.data');
+            Route::get('add', [TimeTrackerController::class, 'editor'])->name('admin.time-tracker.add');
+            Route::get('edit/{id}', [TimeTrackerController::class, 'editor'])->name('admin.time-tracker.edit');
+            Route::post('save', [TimeTrackerController::class, 'save'])->name('admin.time-tracker.save');
+            Route::post('delete/{id}', [TimeTrackerController::class, 'delete'])->name('admin.time-tracker.delete');
+        });
 
         Route::prefix('settings')->group(function () {
             Route::get('profile/edit', [ProfileController::class, 'edit'])->name('admin.profile.edit');

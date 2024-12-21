@@ -15,6 +15,7 @@ class DatabaseSeeder extends Seeder
         DB::transaction(function () {
             $this->call([
                 UserSeeder::class,
+                ClientSeeder::class,
             ]);
         });
     }
