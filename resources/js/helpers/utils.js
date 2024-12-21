@@ -23,15 +23,9 @@ export function create_options_from_users(items) {
   });
 }
 
-export function create_options_from_technicians(items) {
-  return items.map((technician) => {
-    return { 'value': technician.id, 'label': `#${technician.id} - ${technician.name}` };
-  });
-}
-
-export function create_options_from_customers(items) {
-  return items.map((customer) => {
-    return { 'value': customer.id, 'label': `#${customer.id}: ${customer.name}` };
+export function create_options_from_clients(items) {
+  return items.map((item) => {
+    return { 'value': item.id, 'label': `${item.name}` };
   });
 }
 

@@ -107,6 +107,15 @@ onUnmounted(() => {
               <q-item-label>Dashboard</q-item-label>
             </q-item-section>
           </q-item>
+          <q-item v-if="check_role('admin')" clickable v-ripple :active="$page.url.startsWith('/admin/projects')"
+            @click="router.get(route('admin.project.index'))">
+            <q-item-section avatar>
+              <q-icon class="material-symbols-outlined">task</q-icon>
+            </q-item-section>
+            <q-item-section>
+              <q-item-label>Proyek</q-item-label>
+            </q-item-section>
+          </q-item>
           <q-item v-if="check_role('admin')" clickable v-ripple :active="$page.url.startsWith('/admin/clients')"
             @click="router.get(route('admin.client.index'))">
             <q-item-section avatar>

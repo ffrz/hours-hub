@@ -3,7 +3,6 @@ import { onMounted, reactive, ref, watch } from "vue";
 import { useQuasar } from "quasar";
 import { router, usePage } from "@inertiajs/vue3";
 import { handleFetchItems, handleDelete } from "@/helpers/client-req-handler";
-import { create_options } from "@/helpers/utils";
 
 const statuses = [
   { value: 'all', label: 'Semua' },
@@ -19,7 +18,6 @@ const tableRef = ref(null);
 const rows = ref([]);
 const loading = ref(true);
 const filter = reactive({
-  role: 'all',
   status: 'all',
   search: '',
 });
@@ -94,7 +92,7 @@ const deleteItem = (row) => handleDelete({
     <template #title>{{ title }}</template>
     <div class="q-pa-md">
       <q-table ref="tableRef" flat bordered square :dense="true || $q.screen.lt.md" color="primary" row-key="id"
-        virtual-scroll title="Pengguna" v-model:pagination="pagination" :filter="filter.search" :loading="loading"
+        virtual-scroll title="Klien" v-model:pagination="pagination" :filter="filter.search" :loading="loading"
         :columns="columns" :rows="rows" :rows-per-page-options="[10, 25, 50]" @request="fetchItems" binary-state-sort>
         <template v-slot:loading>
           <q-inner-loading showing color="red" />
@@ -103,8 +101,8 @@ const deleteItem = (row) => handleDelete({
         <template #top>
           <div class="col">
             <div class="row q-my-sm items-center">
-              <q-btn color="primary" icon="add" @click="router.get(route('admin.client.add'))" label="Tambah">
-                <q-tooltip>Tambah Pengguna</q-tooltip>
+              <q-btn color="primary" icon="add" @click="router.get(route('admin.client.add'))" label="Baru">
+                <q-tooltip>Klien Baru</q-tooltip>
               </q-btn>
               <q-space />
               <q-input dense debounce="300" v-model="filter.search" placeholder="Cari" clearable>
@@ -115,8 +113,8 @@ const deleteItem = (row) => handleDelete({
             </div>
             <div class="row q-my-sm q-gutter-sm items-center">
               <span>Filter:</span>
-              <q-select v-model="filter.status" :options="statuses" label="Status" dense map-options emit-value outlined
-                style="min-width: 150px;" @update:model-value="onFilterChange" />
+              <q-select v-model="filter.status" class="custom-select" :options="statuses" label="Status" dense
+                map-options emit-value outlined flat style="min-width: 150px;" @update:model-value="onFilterChange" />
             </div>
           </div>
         </template>
@@ -129,9 +127,6 @@ const deleteItem = (row) => handleDelete({
 
         <template v-slot:body="props">
           <q-tr :props="props" :class="(!props.row.active) ? 'bg-red-1' : ''">
-            <q-td key="username" :props="props">
-              {{ props.row.username }}
-            </q-td>
             <q-td key="name" :props="props">
               {{ props.row.name }}
             </q-td>

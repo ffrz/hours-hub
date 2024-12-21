@@ -5,6 +5,7 @@ use App\Http\Controllers\Admin\ClientController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\ProfileController;
+use App\Http\Controllers\Admin\ProjectController;
 use App\Http\Controllers\Admin\TimeTrackerController;
 use App\Http\Middleware\Auth;
 use App\Http\Middleware\NonAuthenticated;
@@ -39,6 +40,15 @@ Route::middleware([Auth::class])->group(function () {
         Route::get('about', function () {
             return inertia('admin/About');
         })->name('admin.about');
+
+        Route::prefix('projects')->group(function () {
+            Route::get('', [ProjectController::class, 'index'])->name('admin.project.index');
+            Route::get('data', [ProjectController::class, 'data'])->name('admin.project.data');
+            Route::get('add', [ProjectController::class, 'editor'])->name('admin.project.add');
+            Route::get('edit/{id}', [ProjectController::class, 'editor'])->name('admin.project.edit');
+            Route::post('save', [ProjectController::class, 'save'])->name('admin.project.save');
+            Route::post('delete/{id}', [ProjectController::class, 'delete'])->name('admin.project.delete');
+        });
 
         Route::prefix('clients')->group(function () {
             Route::get('', [ClientController::class, 'index'])->name('admin.client.index');

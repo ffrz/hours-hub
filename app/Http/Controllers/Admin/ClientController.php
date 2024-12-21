@@ -40,7 +40,7 @@ class ClientController extends Controller
 
     public function editor($id = 0)
     {
-        $client = $id ? Client::findOrFail($id) : new Client();
+        $client = $id ? Client::findOrFail($id) : new Client(['active' => true]);
         return inertia('admin/client/Editor', [
             'data' => $client,
         ]);

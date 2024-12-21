@@ -7,8 +7,9 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\User>
  */
-class ClientFactory extends Factory
+class ProjectFactory extends Factory
 {
+
     /**
      * Define the model's default state.
      *
@@ -17,13 +18,10 @@ class ClientFactory extends Factory
     public function definition(): array
     {
         return [
-            'name' => fake()->company(),
-            'phone' => fake()->phoneNumber(),
-            'email' => fake()->safeEmail(),
-            'address' => fake()->address(),
-            'active' => fake()->randomElement([true, false]),
+            'name' => fake()->sentence(),
+            'client_id' => fake()->randomElement([1, 2, 3, 4, 5, 6, 7]),
+            'active' => true,
             'notes' => '',
         ];
     }
-
 }
