@@ -21,8 +21,8 @@ defineComponent({
     <q-header elevated class="bg-primary text-white">
       <q-toolbar style="max-width: 980px; margin:0 auto;">
         <q-toolbar-title align="left">
-          <q-avatar>
-            <img src="https://cdn.quasar.dev/logo-v2/svg/logo-mono-white.svg">
+          <q-avatar class="">
+            <img src="/assets/images/logo-white.svg">
           </q-avatar>
           <my-link class="q-pl-md text-white" :href="route('home')" :label="$config.APP_NAME" />
         </q-toolbar-title>

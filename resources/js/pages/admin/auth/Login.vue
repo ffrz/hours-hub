@@ -51,7 +51,7 @@ const submit = () => handleSubmit({ form, url: route('admin.auth.login') });
               <q-card-section class="text-center q-pa-none q-mt-md">
                 <p class="q-my-xs text-grey-7">
                   Belum punya akun?
-                  <i-link :href="route('admin.auth.register')">Daftar Perusahaan</i-link>
+                  <i-link :href="route('admin.auth.register')">Daftar</i-link>
                 </p>
                 <p class="q-my-xs text-grey-7">
                   Lupa sandi?
