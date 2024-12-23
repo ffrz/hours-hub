@@ -61,11 +61,11 @@ Route::middleware([Auth::class])->group(function () {
 
         Route::prefix('time-tracker')->group(function () {
             Route::get('', [TimeTrackerController::class, 'index'])->name('admin.time-tracker.index');
-            Route::get('data', [TimeTrackerController::class, 'data'])->name('admin.time-tracker.data');
-            Route::get('add', [TimeTrackerController::class, 'editor'])->name('admin.time-tracker.add');
-            Route::get('edit/{id}', [TimeTrackerController::class, 'editor'])->name('admin.time-tracker.edit');
-            Route::post('save', [TimeTrackerController::class, 'save'])->name('admin.time-tracker.save');
-            Route::post('delete/{id}', [TimeTrackerController::class, 'delete'])->name('admin.time-tracker.delete');
+            Route::post('start', [TimeTrackerController::class, 'start'])->name('admin.time-tracker.start');
+            Route::post('stop', [TimeTrackerController::class, 'stop'])->name('admin.time-tracker.stop');
+            Route::post('update', [TimeTrackerController::class, 'update'])->name('admin.time-tracker.update');
+            Route::post('sync', [TimeTrackerController::class, 'sync'])->name('admin.time-tracker.sync');
+            Route::post('cancel', [TimeTrackerController::class, 'cancel'])->name('admin.time-tracker.cancel');
         });
 
         Route::prefix('settings')->group(function () {
