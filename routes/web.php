@@ -6,19 +6,14 @@ use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\ProfileController;
 use App\Http\Controllers\Admin\ProjectController;
+use App\Http\Controllers\Admin\ReportController;
 use App\Http\Controllers\Admin\TimeTrackerController;
 use App\Http\Middleware\Auth;
 use App\Http\Middleware\NonAuthenticated;
-use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
-    return inertia('Welcome', [
-        'canLogin' => Route::has('login'),
-        'canRegister' => Route::has('register'),
-        'laravelVersion' => Application::VERSION,
-        'phpVersion' => PHP_VERSION,
-    ]);
+    return inertia('Welcome');
 })->name('home');
 
 Route::middleware(NonAuthenticated::class)->group(function () {
@@ -40,6 +35,10 @@ Route::middleware([Auth::class])->group(function () {
         Route::get('about', function () {
             return inertia('admin/About');
         })->name('admin.about');
+
+        Route::prefix('reports')->group(function () {
+            Route::get('', [ReportController::class, 'index'])->name('admin.report.index');
+        });
 
         Route::prefix('projects')->group(function () {
             Route::get('', [ProjectController::class, 'index'])->name('admin.project.index');

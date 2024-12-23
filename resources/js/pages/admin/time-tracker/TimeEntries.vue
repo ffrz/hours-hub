@@ -162,10 +162,10 @@ defineExpose({
             </q-input>
           </div>
           <div class="row q-my-sm q-gutter-sm items-center">
-            <span>Filter: tidak tersedia</span>
+            <span class="col-auto">Filter</span>
             <q-select
               v-model="filter.project_id"
-              class="custom-select"
+              class="custom-select col-auto col-lg-auto"
               :options="projects"
               label="Proyek"
               dense
@@ -176,6 +176,7 @@ defineExpose({
               style="min-width: 150px"
               @update:model-value="onFilterChange"
             />
+            <div class="col"></div>
           </div>
         </div>
       </template>

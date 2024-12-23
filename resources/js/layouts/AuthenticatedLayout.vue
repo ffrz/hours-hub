@@ -98,6 +98,7 @@ onUnmounted(() => {
               <q-item-label>Time Tracker</q-item-label>
             </q-item-section>
           </q-item>
+          <q-separator />
           <q-item clickable v-ripple :active="$page.url == '/admin/dashboard'"
             @click="router.get(route('admin.dashboard'))">
             <q-item-section avatar>
@@ -107,6 +108,16 @@ onUnmounted(() => {
               <q-item-label>Dashboard</q-item-label>
             </q-item-section>
           </q-item>
+          <q-item clickable v-ripple :active="$page.url == '/admin/reports'"
+            @click="router.get(route('admin.report.index'))">
+            <q-item-section avatar>
+              <q-icon class="material-symbols-outlined">monitoring</q-icon>
+            </q-item-section>
+            <q-item-section>
+              <q-item-label>Laporan</q-item-label>
+            </q-item-section>
+          </q-item>
+          <q-separator />
           <q-item v-if="check_role('admin')" clickable v-ripple :active="$page.url.startsWith('/admin/projects')"
             @click="router.get(route('admin.project.index'))">
             <q-item-section avatar>
@@ -134,6 +145,7 @@ onUnmounted(() => {
               <q-item-label>Pengguna</q-item-label>
             </q-item-section>
           </q-item>
+          <q-separator />
           <q-item clickable v-ripple :active="$page.url.startsWith('/admin/settings/profile')"
             @click="router.get(route('admin.profile.edit'))">
             <q-item-section avatar>
