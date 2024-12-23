@@ -18,6 +18,48 @@ class TimeTrackerController extends Controller
         return inertia('admin/time-tracker/Index', compact('projects'));
     }
 
+    public function checkLastSession(Request $request)
+    {
+        $user = Auth::user();
+        $entry = TimeEntry::query()
+            ->where('user_id', $user->id)
+            ->where('end_time', null)
+            ->orderBy('id', 'desc')
+            ->first();
+
+        if ($entry) {
+            $entry->duration = (int)Carbon::parse($entry->start_time)->diffInSeconds($entry->end_time);
+        }
+
+        return response()->json($entry);
+    }
+
+    public function data(Request $request)
+    {
+        $user = Auth::user();
+        $orderBy = $request->get('order_by', 'name');
+        $orderType = $request->get('order_type', 'asc');
+        $filter = $request->get('filter', []);
+
+        $q = TimeEntry::with(['project']);
+        $q->where('user_id', $user->id)
+          ->where('end_time', '<>', null);
+        $q->orderBy($orderBy, $orderType);
+
+        if (!empty($filter['search'])) {
+            $q->where(function ($query) use ($filter) {
+                $query->where('title', 'like', '%' . $filter['search'] . '%');
+            });
+        }
+
+        if (!empty($filter['project_id']) && $filter['project_id'] != 'all') {
+            $q->where('project_id', '=', $filter['project_id']);
+        }
+
+        $items = $q->paginate($request->get('per_page', 10))->withQueryString();
+        return response()->json($items);
+    }
+
     public function start(Request $request)
     {
         $title = $request->input('title', '');

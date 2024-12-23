@@ -43,6 +43,7 @@ Route::middleware([Auth::class])->group(function () {
 
         Route::prefix('projects')->group(function () {
             Route::get('', [ProjectController::class, 'index'])->name('admin.project.index');
+            Route::get('list', [ProjectController::class, 'list'])->name('admin.project.list');
             Route::get('data', [ProjectController::class, 'data'])->name('admin.project.data');
             Route::get('add', [ProjectController::class, 'editor'])->name('admin.project.add');
             Route::get('edit/{id}', [ProjectController::class, 'editor'])->name('admin.project.edit');
@@ -61,11 +62,13 @@ Route::middleware([Auth::class])->group(function () {
 
         Route::prefix('time-tracker')->group(function () {
             Route::get('', [TimeTrackerController::class, 'index'])->name('admin.time-tracker.index');
+            Route::get('data', [TimeTrackerController::class, 'data'])->name('admin.time-tracker.data');
             Route::post('start', [TimeTrackerController::class, 'start'])->name('admin.time-tracker.start');
             Route::post('stop', [TimeTrackerController::class, 'stop'])->name('admin.time-tracker.stop');
             Route::post('update', [TimeTrackerController::class, 'update'])->name('admin.time-tracker.update');
             Route::post('sync', [TimeTrackerController::class, 'sync'])->name('admin.time-tracker.sync');
             Route::post('cancel', [TimeTrackerController::class, 'cancel'])->name('admin.time-tracker.cancel');
+            Route::post('check-last-session', [TimeTrackerController::class, 'checkLastSession'])->name('admin.time-tracker.check-last-session');
         });
 
         Route::prefix('settings')->group(function () {

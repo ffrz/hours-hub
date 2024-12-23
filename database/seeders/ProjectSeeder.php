@@ -13,17 +13,28 @@ class ProjectSeeder extends Seeder
     public function run(): void
     {
         Project::factory()->create([
-            'name' => 'Project 1',
-            'client_id' => 1,
-        ]);
-        Project::factory()->create([
-            'name' => 'Project 2',
+            'name' => 'Hours Hub',
             'client_id' => null,
         ]);
         Project::factory()->create([
-            'name' => 'Project 3',
-            'client_id' => 4,
+            'name' => 'Tahfidz Monitoring',
+            'client_id' => null,
         ]);
-        Project::factory(5)->create();
+        Project::factory()->create([
+            'name' => 'EPPDB',
+            'client_id' => null,
+        ]);
+        Project::factory()->create([
+            'name' => 'SPPIE',
+            'client_id' => null,
+        ]);
+        Project::factory()->create([
+            'name' => 'Shiftech POS Desktop',
+            'client_id' => null,
+        ]);
+        Project::factory()->create([
+            'name' => 'Shiftech POS Web',
+            'client_id' => null,
+        ]);
     }
 }

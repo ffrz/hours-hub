@@ -16,6 +16,14 @@ class ProjectController extends Controller
         ]);
     }
 
+    public function list(Request $request)
+    {
+        $projects = Project::query()
+            ->orderBy('name', 'asc')
+            ->get(['id', 'name']);
+        return response()->json($projects);
+    }
+
     public function data(Request $request)
     {
         $orderBy = $request->get('order_by', 'name');

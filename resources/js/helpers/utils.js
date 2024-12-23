@@ -1,5 +1,12 @@
 import { usePage } from "@inertiajs/vue3";
 
+export function format_duration(duration) {
+  const durationInt = parseInt(duration);
+  const hours = Math.floor(durationInt / 3600);
+  const minutes = Math.floor((durationInt % 3600) / 60);
+  const seconds = durationInt % 60;
+  return `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+}
 /**
  * Memeriksa apakah current user role ada di roles
  * @param {string | Array} roles
