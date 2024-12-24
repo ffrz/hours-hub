@@ -192,21 +192,24 @@ const _catchError = (error) => {
               :label="!timerId ? 'MULAI' : 'SELESAI'"
               :color="!timerId ? 'primary' : 'negative'"
               @click="!timerId ? startTimer() : stopTimer()"
-              style="width: 100px; height: 40px; border-top-right-radius: 0%; border-bottom-right-radius: 0%;"
+              style="
+                width: 100px;
+                height: 40px;
+                border-top-right-radius: 0%;
+                border-bottom-right-radius: 0%;
+              "
               v-ripple
             />
             <q-btn
               class="col-auto"
               :class="showMenu ? 'menu-active' : ''"
-              flat
               icon="more_vert"
               dense
               :disabled="!timerId"
-              color="grey"
+              :color="!timerId ? 'primary' : 'negative'"
               style="
                 height: 40px;
                 width: 30px;
-                border: 1px solid #ddd;
                 border-top-left-radius: 0%;
                 border-bottom-left-radius: 0%;
               "
