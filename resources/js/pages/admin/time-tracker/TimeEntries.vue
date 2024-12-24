@@ -16,7 +16,18 @@ const projects = ref([]);
 const filter = reactive({
   search: "",
   project_id: "all",
+  period: "today",
 });
+
+const periods = ref([
+  { value: "all", label: "Semua"},
+  { value: "today", label: "Hari Ini"},
+  { value: "yesterday", label: "Kemarin"},
+  { value: "this_week", label: "Minggu Ini"},
+  { value: "prev_week", label: "Minggu Kemarin"},
+  { value: "this_month", label: "Bulan Ini"},
+  { value: "prev_month", label: "Bulan Kemarin"},
+]);
 
 const pagination = ref({
   page: 1,
@@ -107,17 +118,6 @@ const fetchItems = (props = null) => {
   });
 };
 
-const deleteItem = (row) =>
-  handleDelete({
-    url: route("admin.client.delete", row.id),
-    title: `Hapus client ${row.name}?`,
-    fetchItemsCallback: fetchItems,
-    loading,
-  });
-
-defineExpose({
-  fetchItems,
-});
 </script>
 
 <template>
@@ -176,6 +176,19 @@ defineExpose({
               style="min-width: 150px"
               @update:model-value="onFilterChange"
             />
+            <q-select
+              v-model="filter.period"
+              class="custom-select col-auto col-lg-auto"
+              :options="periods"
+              label="Periode"
+              dense
+              map-options
+              emit-value
+              outlined
+              flat
+              style="min-width: 150px"
+              @update:model-value="onFilterChange"
+            />
             <div class="col"></div>
           </div>
         </div>
@@ -214,5 +227,6 @@ defineExpose({
         </q-tr>
       </template>
     </q-table>
+
   </div>
 </template>

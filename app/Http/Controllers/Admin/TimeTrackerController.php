@@ -43,7 +43,7 @@ class TimeTrackerController extends Controller
 
         $q = TimeEntry::with(['project']);
         $q->where('user_id', $user->id)
-          ->where('end_time', '<>', null);
+            ->where('end_time', '<>', null);
         $q->orderBy($orderBy, $orderType);
 
         if (!empty($filter['search'])) {
@@ -54,6 +54,23 @@ class TimeTrackerController extends Controller
 
         if (!empty($filter['project_id']) && $filter['project_id'] != 'all') {
             $q->where('project_id', '=', $filter['project_id']);
+        }
+
+
+        if (!empty($filter['period']) && $filter['period'] != 'all') {
+            if ($filter['period'] == 'today') {
+                $q->whereDate('start_time', Carbon::today())->get();
+            } else if ($filter['period'] == 'yesterday') {
+                $q->whereDate('start_time', Carbon::yesterday())->get();
+            } else if ($filter['period'] == 'this_week') {
+                $q->whereBetween('start_time', [Carbon::now()->startOfWeek(), Carbon::now()->endOfWeek()])->get();
+            } else if ($filter['period'] == 'prev_week') {
+                $q->whereBetween('start_time', [Carbon::now()->subWeek()->startOfWeek(),  Carbon::now()->subWeek()->endOfWeek()])->get();
+            } else if ($filter['period'] == 'this_month') {
+                $q->whereBetween('start_time', [Carbon::now()->startOfMonth(), Carbon::now()->endOfMonth()])->get();
+            } else if ($filter['period'] == 'prev_month') {
+                $q->whereBetween('start_time', [Carbon::now()->subMonth()->startOfMonth(), Carbon::now()->subMonth()->endOfMonth()])->get();
+            }
         }
 
         $items = $q->paginate($request->get('per_page', 10))->withQueryString();
