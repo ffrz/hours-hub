@@ -66,8 +66,8 @@ class TimeEntryController extends Controller
 
     public function editor($id = 0)
     {
-        $users = User::query()->orderBy('name', 'asc');
-        $projects = Project::query()->orderBy('name', 'asc');
+        $users = User::query()->orderBy('name', 'asc')->get();
+        $projects = Project::query()->orderBy('name', 'asc')->get();
         $entry = $id ? TimeEntry::findOrFail($id) : new TimeEntry(['start_time' => Carbon::now()->toDateTimeString()]);
         return inertia('admin/time-entry/Editor', [
             'data' => $entry,
