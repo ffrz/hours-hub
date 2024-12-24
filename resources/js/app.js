@@ -34,6 +34,7 @@ createInertiaApp({
         plugins: { Notify, Loading, Dialog },
         config: {
           framework: {
+            cssAddon: true,
             iconSet: 'material-icons-outlined', // Change this to use the outlined icon set
           }
         }

@@ -35,6 +35,7 @@ Route::middleware([Auth::class])->group(function () {
     Route::prefix('admin')->group(function () {
         Route::get('', function() { return redirect()->route('admin.dashboard'); });
         Route::get('dashboard', [DashboardController::class, 'index'])->name('admin.dashboard');
+        Route::get('dashboard/data', [DashboardController::class, 'data'])->name('admin.dashboard.data');
 
         Route::prefix('reports')->group(function () {
             Route::get('', [ReportController::class, 'index'])->name('admin.report.index');
