@@ -17,7 +17,7 @@
       <!-- Time Picker Icon -->
       <q-icon name="access_time" class="cursor-pointer">
         <q-popup-proxy cover transition-show="scale" transition-hide="scale">
-          <q-time v-model="timeValue" mask="HH:mm" format24h @update:model-value="updateDateTime">
+          <q-time v-model="timeValue" mask="HH:mm:ss" format24h @update:model-value="updateDateTime">
             <div class="row items-center justify-end">
               <q-btn v-close-popup label="Close" color="primary" flat />
             </div>
@@ -63,7 +63,7 @@ const props = defineProps({
   },
   mask: {
     type: String,
-    default: '####-##-## ##:##',
+    default: '####-##-## ##:##:##',
   }
 });
 
@@ -72,7 +72,7 @@ const emit = defineEmits(['update:modelValue']);
 
 // Internal states for date and time
 const dateValue = ref('');
-const timeValue = ref('00:00');
+const timeValue = ref('00:00:00');
 
 // Watch for changes to modelValue (pickedDatetime) and sync with internal states
 watch(() => props.modelValue, (newValue) => {
@@ -91,7 +91,7 @@ const updateDateTime = () => {
     val = `${dateValue.value} ${timeValue.value}`;
   }
   else if (dateValue.value) {
-    val = `${dateValue.value} 00:00`;
+    val = `${dateValue.value} 00:00:00`;
   }
 
   emit('update:modelValue', val);

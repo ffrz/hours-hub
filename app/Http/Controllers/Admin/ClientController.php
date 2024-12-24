@@ -50,7 +50,7 @@ class ClientController extends Controller
     {
         $rules = [
             'name' => 'required|max:255',
-            'email' => 'email|min:3|max:100',
+            'email' => 'email|nullable|min:3|max:100',
         ];
         $messages = [
             'name.required' => 'Nama klien harus diisi.',

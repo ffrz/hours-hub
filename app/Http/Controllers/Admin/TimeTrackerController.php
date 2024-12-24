@@ -56,7 +56,6 @@ class TimeTrackerController extends Controller
             $q->where('project_id', '=', $filter['project_id']);
         }
 
-
         if (!empty($filter['period']) && $filter['period'] != 'all') {
             if ($filter['period'] == 'today') {
                 $q->whereDate('start_time', Carbon::today())->get();
@@ -85,7 +84,7 @@ class TimeTrackerController extends Controller
             'user_id' => Auth::user()->id,
             'project_id' => $projectId ? $projectId : null,
             'title' => $title ? $title : '',
-            'start_time' => now(),
+            'start_time' => Carbon::now(),
         ]);
         $entry->save();
         return response()->json($entry);
@@ -103,7 +102,7 @@ class TimeTrackerController extends Controller
             return response()->json(['message' => 'Sesi sudah berakhir'], 400);
         }
 
-        $entry->end_time = now();
+        $entry->end_time = Carbon::now();
         $entry->duration = Carbon::parse($entry->start_time)->diffInSeconds($entry->end_time);
         $entry->save();
 

@@ -12,6 +12,10 @@ a:hover {
   padding-right: 12px;
 }
 
+#main-nav .q-item--clickable:hover {
+  background-color: #ddd;
+}
+
 #main-nav .q-item__section--side > .q-icon {
   font-size: 20px;
   color: #555;

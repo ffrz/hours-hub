@@ -7,12 +7,17 @@ use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\ProfileController;
 use App\Http\Controllers\Admin\ProjectController;
 use App\Http\Controllers\Admin\ReportController;
+use App\Http\Controllers\Admin\TimeEntryController;
 use App\Http\Controllers\Admin\TimeTrackerController;
 use App\Http\Middleware\Auth;
 use App\Http\Middleware\NonAuthenticated;
+use App\Http\Middleware\OnlyAdmin;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
+    if (auth()) {
+        return redirect()->route('admin.dashboard');
+    }
     return inertia('Welcome');
 })->name('home');
 
@@ -28,35 +33,42 @@ Route::middleware([Auth::class])->group(function () {
     Route::match(['get', 'post'], 'admin/auth/logout', [AuthController::class, 'logout'])->name('admin.auth.logout');
 
     Route::prefix('admin')->group(function () {
-        Route::redirect('', 'admin/dashboard', 301);
-
+        Route::get('', function() { return redirect()->route('admin.dashboard'); });
         Route::get('dashboard', [DashboardController::class, 'index'])->name('admin.dashboard');
-        Route::get('test', [DashboardController::class, 'test'])->name('admin.test');
-        Route::get('about', function () {
-            return inertia('admin/About');
-        })->name('admin.about');
 
         Route::prefix('reports')->group(function () {
             Route::get('', [ReportController::class, 'index'])->name('admin.report.index');
         });
 
-        Route::prefix('projects')->group(function () {
-            Route::get('', [ProjectController::class, 'index'])->name('admin.project.index');
-            Route::get('list', [ProjectController::class, 'list'])->name('admin.project.list');
-            Route::get('data', [ProjectController::class, 'data'])->name('admin.project.data');
-            Route::get('add', [ProjectController::class, 'editor'])->name('admin.project.add');
-            Route::get('edit/{id}', [ProjectController::class, 'editor'])->name('admin.project.edit');
-            Route::post('save', [ProjectController::class, 'save'])->name('admin.project.save');
-            Route::post('delete/{id}', [ProjectController::class, 'delete'])->name('admin.project.delete');
-        });
+        Route::get('projects/list', [ProjectController::class, 'list'])->name('admin.project.list');
 
-        Route::prefix('clients')->group(function () {
-            Route::get('', [ClientController::class, 'index'])->name('admin.client.index');
-            Route::get('data', [ClientController::class, 'data'])->name('admin.client.data');
-            Route::get('add', [ClientController::class, 'editor'])->name('admin.client.add');
-            Route::get('edit/{id}', [ClientController::class, 'editor'])->name('admin.client.edit');
-            Route::post('save', [ClientController::class, 'save'])->name('admin.client.save');
-            Route::post('delete/{id}', [ClientController::class, 'delete'])->name('admin.client.delete');
+        Route::middleware([OnlyAdmin::class])->group(function () {
+            Route::prefix('projects')->group(function () {
+                Route::get('', [ProjectController::class, 'index'])->name('admin.project.index');
+                Route::get('data', [ProjectController::class, 'data'])->name('admin.project.data');
+                Route::get('add', [ProjectController::class, 'editor'])->name('admin.project.add');
+                Route::get('edit/{id}', [ProjectController::class, 'editor'])->name('admin.project.edit');
+                Route::post('save', [ProjectController::class, 'save'])->name('admin.project.save');
+                Route::post('delete/{id}', [ProjectController::class, 'delete'])->name('admin.project.delete');
+            });
+
+            Route::prefix('clients')->group(function () {
+                Route::get('', [ClientController::class, 'index'])->name('admin.client.index');
+                Route::get('data', [ClientController::class, 'data'])->name('admin.client.data');
+                Route::get('add', [ClientController::class, 'editor'])->name('admin.client.add');
+                Route::get('edit/{id}', [ClientController::class, 'editor'])->name('admin.client.edit');
+                Route::post('save', [ClientController::class, 'save'])->name('admin.client.save');
+                Route::post('delete/{id}', [ClientController::class, 'delete'])->name('admin.client.delete');
+            });
+
+            Route::prefix('time-entries')->group(function () {
+                Route::get('', [TimeEntryController::class, 'index'])->name('admin.time-entry.index');
+                Route::get('data', [TimeEntryController::class, 'data'])->name('admin.time-entry.data');
+                Route::get('add', [TimeEntryController::class, 'editor'])->name('admin.time-entry.add');
+                Route::get('edit/{id}', [TimeEntryController::class, 'editor'])->name('admin.time-entry.edit');
+                Route::post('save', [TimeEntryController::class, 'save'])->name('admin.time-entry.save');
+                Route::post('delete/{id}', [TimeEntryController::class, 'delete'])->name('admin.time-entry.delete');
+            });
         });
 
         Route::prefix('time-tracker')->group(function () {
@@ -82,7 +94,7 @@ Route::middleware([Auth::class])->group(function () {
                 Route::get('edit/{id}', [UserController::class, 'editor'])->name('admin.user.edit');
                 Route::post('save', [UserController::class, 'save'])->name('admin.user.save');
                 Route::post('delete/{id}', [UserController::class, 'delete'])->name('admin.user.delete');
-            });
+            })->middleware(OnlyAdmin::class);
         });
     });
 });
