@@ -164,33 +164,21 @@ const deleteItem = (row) =>
         </template>
         <template #top>
           <div class="col">
-            <div class="row q-my-sm items-center">
-              <q-btn
-                color="primary"
-                icon="add"
-                @click="router.get(route('admin.time-entry.add'))"
-                label="Manual Entry"
-              >
-                <q-tooltip>Manual Entry</q-tooltip>
-              </q-btn>
-              <q-space />
-              <q-input
-                dense
-                debounce="300"
-                v-model="filter.search"
-                placeholder="Cari"
-                clearable
-              >
-                <template v-slot:append>
-                  <q-icon name="search" />
-                </template>
-              </q-input>
-            </div>
-            <div class="row q-my-sm q-gutter-sm items-center">
-              <span class="col-auto">Filter</span>
+            <div class="row q-mt-sm q-mb-md q-col-gutter-xs items-center">
+              <div class="col-auto">
+                <q-btn
+                  color="primary"
+                  icon="add"
+                  @click="router.get(route('admin.time-entry.add'))"
+                  label="Manual Entry"
+                >
+                  <q-tooltip>Manual Entry</q-tooltip>
+                </q-btn>
+              </div>
+              <q-space class="col-auto" />
               <q-select
                 v-model="filter.user_id"
-                class="custom-select col-auto col-lg-auto"
+                class="col-12 col-sm-2 custom-select"
                 :options="users"
                 label="Pengguna"
                 dense
@@ -198,12 +186,11 @@ const deleteItem = (row) =>
                 emit-value
                 outlined
                 flat
-                style="min-width: 150px"
                 @update:model-value="onFilterChange"
               />
               <q-select
                 v-model="filter.project_id"
-                class="custom-select col-auto col-lg-auto"
+                class="col-12 col-sm-2 custom-select"
                 :options="projects"
                 label="Proyek"
                 dense
@@ -211,12 +198,11 @@ const deleteItem = (row) =>
                 emit-value
                 outlined
                 flat
-                style="min-width: 150px"
                 @update:model-value="onFilterChange"
               />
               <q-select
                 v-model="filter.period"
-                class="custom-select col-auto col-lg-auto"
+                class="col-12 col-sm-2 custom-select"
                 :options="periods"
                 label="Periode"
                 dense
@@ -224,10 +210,21 @@ const deleteItem = (row) =>
                 emit-value
                 outlined
                 flat
-                style="min-width: 150px"
                 @update:model-value="onFilterChange"
               />
-              <div class="col"></div>
+              <q-input
+                class="col-12 col-sm-2"
+                dense
+                debounce="300"
+                v-model="filter.search"
+                placeholder="Cari"
+                clearable
+                outlined
+              >
+                <template v-slot:append>
+                  <q-icon name="search" />
+                </template>
+              </q-input>
             </div>
           </div>
         </template>
@@ -253,10 +250,14 @@ const deleteItem = (row) =>
               {{ props.row.start_time }}
             </q-td>
             <q-td key="end_time" :props="props">
-              {{ props.row.end_time ?? 'Sedang berjalan' }}
+              {{ props.row.end_time ?? "Sedang berjalan" }}
             </q-td>
             <q-td key="duration" :props="props">
-              {{ props.row.duration ? format_duration(props.row.duration) : '??:??:??' }}
+              {{
+                props.row.duration
+                  ? format_duration(props.row.duration)
+                  : "??:??:??"
+              }}
             </q-td>
             <q-td
               key="action"

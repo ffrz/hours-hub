@@ -147,11 +147,12 @@ const _catchError = (error) => {
 <template>
   <div class="row">
     <q-card class="col" square flat bordered>
-      <q-card-section class="row q-gutter-xs">
+      <q-card-section class="row q-col-gutter-xs">
         <q-input
           dense
+          outlined
           label="Uraian Pekerjaan"
-          class="col"
+          class="col-12 col-sm-6"
           v-model="data.title"
           square
           @update:model-value="update"
@@ -161,7 +162,8 @@ const _catchError = (error) => {
         <q-select
           dense
           label="Proyek"
-          class="col-auto"
+          class="col-12 col-sm-2 custom-select"
+          outlined
           :options="projects"
           map-options
           emit-value
@@ -173,44 +175,48 @@ const _catchError = (error) => {
         />
         <q-input
           dense
+          outlined
           label="Durasi"
-          class="col-auto"
+          class="col-12 col-sm-2"
           readonly
           v-model="formattedDuration"
           square
         />
-        <div class="col-auto items-center flex">
-          <q-btn
-            :label="!timerId ? 'MULAI' : 'SELESAI'"
-            :color="!timerId ? 'primary' : 'negative'"
-            @click="!timerId ? startTimer() : stopTimer()"
-            style="width: 100px"
-            v-ripple
-            square
-          />
-          <q-btn
-            class="col-auto"
-            :class="showMenu ? 'menu-active' : ''"
-            flat
-            icon="more_vert"
-            dense
-            :disabled="!timerId"
-            color="grey"
-            square
-          >
-            <q-menu
+        <div class="col-12 col-sm-2">
+          <div class="row">
+            <q-btn class="col"
+              :label="!timerId ? 'MULAI' : 'SELESAI'"
+              :color="!timerId ? 'primary' : 'negative'"
+              @click="!timerId ? startTimer() : stopTimer()"
+              style="width: 100px;height:40px;"
+              v-ripple
               square
-              v-model="showMenu"
-              anchor="bottom right"
-              self="top right"
+            />
+            <q-btn
+              class="col-auto"
+              :class="showMenu ? 'menu-active' : ''"
+              flat
+              icon="more_vert"
+              dense
+              :disabled="!timerId"
+              color="grey"
+              style="height:40px;width:30px;border:1px solid #ddd;"
+              square
             >
-              <q-list style="min-width: 150px">
-                <q-item clickable v-ripple v-close-popup @click="cancelTimer">
-                  <q-item-section>Batalkan</q-item-section>
-                </q-item>
-              </q-list>
-            </q-menu>
-          </q-btn>
+              <q-menu
+                square
+                v-model="showMenu"
+                anchor="bottom right"
+                self="top right"
+              >
+                <q-list style="width: 150px">
+                  <q-item clickable v-ripple v-close-popup @click="cancelTimer">
+                    <q-item-section>Batalkan</q-item-section>
+                  </q-item>
+                </q-list>
+              </q-menu>
+            </q-btn>
+          </div>
         </div>
       </q-card-section>
     </q-card>

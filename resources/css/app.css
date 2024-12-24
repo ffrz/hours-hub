@@ -50,3 +50,17 @@ a:hover {
 .q-btn {
   text-transform: none !important;
 }
+
+.custom-select {
+  min-width: 150px !important;
+}
+
+.q-select .q-field__native {
+  position:absolute;
+  bottom: -1px;
+  display: inline-block;
+  max-width: 100%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}

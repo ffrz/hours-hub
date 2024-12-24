@@ -2,10 +2,7 @@
 import { onMounted, reactive, ref, watch } from "vue";
 import { useQuasar } from "quasar";
 import { handleFetchItems, handleDelete } from "@/helpers/client-req-handler";
-import {
-  create_options_v2,
-  format_duration,
-} from "@/helpers/utils";
+import { create_options_v2, format_duration } from "@/helpers/utils";
 import axios from "axios";
 
 const $q = useQuasar();
@@ -20,13 +17,13 @@ const filter = reactive({
 });
 
 const periods = ref([
-  { value: "all", label: "Semua"},
-  { value: "today", label: "Hari Ini"},
-  { value: "yesterday", label: "Kemarin"},
-  { value: "this_week", label: "Minggu Ini"},
-  { value: "prev_week", label: "Minggu Kemarin"},
-  { value: "this_month", label: "Bulan Ini"},
-  { value: "prev_month", label: "Bulan Kemarin"},
+  { value: "all", label: "Semua" },
+  { value: "today", label: "Hari Ini" },
+  { value: "yesterday", label: "Kemarin" },
+  { value: "this_week", label: "Minggu Ini" },
+  { value: "prev_week", label: "Minggu Kemarin" },
+  { value: "this_month", label: "Bulan Ini" },
+  { value: "prev_month", label: "Bulan Kemarin" },
 ]);
 
 const pagination = ref({
@@ -112,12 +109,11 @@ const fetchItems = (props = null) => {
   });
   axios.get(route("admin.project.list")).then((response) => {
     projects.value = [
-      { value: 'all', label: 'Semua' },
-      ...create_options_v2(response.data, "id", "name")
-      ];
+      { value: "all", label: "Semua" },
+      ...create_options_v2(response.data, "id", "name"),
+    ];
   });
 };
-
 </script>
 
 <template>
@@ -146,26 +142,14 @@ const fetchItems = (props = null) => {
       </template>
       <template #top>
         <div class="col">
-          <div class="row q-my-sm items-center">
+          <div class="row q-my-xs q-mb-md q-col-gutter-xs items-center">
             <div class="text-subtitle1">Time Entries</div>
-            <q-space />
-            <q-input
-              dense
-              debounce="300"
-              v-model="filter.search"
-              placeholder="Cari"
-              clearable
-            >
-              <template v-slot:append>
-                <q-icon name="search" />
-              </template>
-            </q-input>
           </div>
-          <div class="row q-my-sm q-gutter-sm items-center">
-            <span class="col-auto">Filter</span>
+          <div class="row q-my-xs q-mb-md q-col-gutter-xs items-center">
+            <div class="col-auto">Filter:</div>
             <q-select
               v-model="filter.project_id"
-              class="custom-select col-auto col-lg-auto"
+              class="col-12 col-sm-2 custom-select"
               :options="projects"
               label="Proyek"
               dense
@@ -173,12 +157,11 @@ const fetchItems = (props = null) => {
               emit-value
               outlined
               flat
-              style="min-width: 150px"
               @update:model-value="onFilterChange"
             />
             <q-select
               v-model="filter.period"
-              class="custom-select col-auto col-lg-auto"
+              class="col-12 col-sm-2 custom-select"
               :options="periods"
               label="Periode"
               dense
@@ -186,10 +169,22 @@ const fetchItems = (props = null) => {
               emit-value
               outlined
               flat
-              style="min-width: 150px"
               @update:model-value="onFilterChange"
             />
-            <div class="col"></div>
+            <q-space />
+            <q-input
+              class="col-12 col-sm-2"
+              dense
+              debounce="500"
+              v-model="filter.search"
+              placeholder="Cari"
+              clearable
+              outlined
+            >
+              <template v-slot:append>
+                <q-icon name="search" />
+              </template>
+            </q-input>
           </div>
         </div>
       </template>
@@ -227,6 +222,5 @@ const fetchItems = (props = null) => {
         </q-tr>
       </template>
     </q-table>
-
   </div>
 </template>

@@ -5,9 +5,9 @@ import { router, usePage } from "@inertiajs/vue3";
 import { handleFetchItems, handleDelete } from "@/helpers/client-req-handler";
 
 const statuses = [
-  { value: 'all', label: 'Semua' },
-  { value: 'active', label: 'Aktif' },
-  { value: 'inactive', label: 'Tidak Aktif' },
+  { value: "all", label: "Semua" },
+  { value: "active", label: "Aktif" },
+  { value: "inactive", label: "Tidak Aktif" },
 ];
 
 const page = usePage();
@@ -18,8 +18,8 @@ const tableRef = ref(null);
 const rows = ref([]);
 const loading = ref(true);
 const filter = reactive({
-  status: 'all',
-  search: '',
+  status: "all",
+  search: "",
 });
 
 const pagination = ref({
@@ -30,60 +30,77 @@ const pagination = ref({
   descending: false,
 });
 
-const columns = [{
-  name: "name",
-  label: "Nama",
-  field: "name",
-  align: "left",
-  sortable: true
-}, {
-  name: "phone",
-  label: "Telepon",
-  field: "phone",
-  align: "left",
-  sortable: true,
-}, {
-  name: "email",
-  label: "Email",
-  field: "email",
-  align: "left",
-  sortable: true,
-}, {
-  name: "address",
-  label: "Alamat",
-  field: "address",
-  align: "left",
-  sortable: true,
-}, {
-  name: "action",
-  label: "Aksi",
-  align: "center"
-}];
+const columns = [
+  {
+    name: "name",
+    label: "Nama",
+    field: "name",
+    align: "left",
+    sortable: true,
+  },
+  {
+    name: "phone",
+    label: "Telepon",
+    field: "phone",
+    align: "left",
+    sortable: true,
+  },
+  {
+    name: "email",
+    label: "Email",
+    field: "email",
+    align: "left",
+    sortable: true,
+  },
+  {
+    name: "address",
+    label: "Alamat",
+    field: "address",
+    align: "left",
+    sortable: true,
+  },
+  {
+    name: "action",
+    label: "Aksi",
+    align: "center",
+  },
+];
 
 onMounted(() => {
-  const savedFilter = localStorage.getItem('fixsync.client.filter');
+  const savedFilter = localStorage.getItem("fixsync.client.filter");
   if (savedFilter) {
     Object.assign(filter, JSON.parse(savedFilter));
   }
   fetchItems();
 });
 
-watch(filter, (newValue) => {
-  localStorage.setItem('fixsync.client.filter', JSON.stringify(newValue));
-}, { deep: true });
+watch(
+  filter,
+  (newValue) => {
+    localStorage.setItem("fixsync.client.filter", JSON.stringify(newValue));
+  },
+  { deep: true }
+);
 
 const onFilterChange = () => fetchItems();
 
 const fetchItems = (props = null) =>
-  handleFetchItems({ pagination, props, rows, loading, filter, url: route('admin.client.data') });
+  handleFetchItems({
+    pagination,
+    props,
+    rows,
+    loading,
+    filter,
+    url: route("admin.client.data"),
+  });
 
-const deleteItem = (row) => handleDelete({
-  url: route('admin.client.delete', row.id),
-  title: `Hapus client ${row.name}?`,
-  fetchItemsCallback: fetchItems,
-  loading,
-});
-
+const deleteItem = (row) =>
+  handleDelete({
+    url: route("admin.client.delete", row.id),
+    title: `Hapus client ${row.name}?`,
+    fetchItemsCallback: fetchItems,
+    loading,
+  });
 </script>
 
 <template>
@@ -91,30 +108,69 @@ const deleteItem = (row) => handleDelete({
   <authenticated-layout>
     <template #title>{{ title }}</template>
     <div class="q-pa-md">
-      <q-table ref="tableRef" flat bordered square :dense="true || $q.screen.lt.md" color="primary" row-key="id"
-        virtual-scroll title="Klien" v-model:pagination="pagination" :filter="filter.search" :loading="loading"
-        :columns="columns" :rows="rows" :rows-per-page-options="[10, 25, 50]" @request="fetchItems" binary-state-sort>
+      <q-table
+        ref="tableRef"
+        flat
+        bordered
+        square
+        :dense="true || $q.screen.lt.md"
+        color="primary"
+        row-key="id"
+        virtual-scroll
+        title="Klien"
+        v-model:pagination="pagination"
+        :filter="filter.search"
+        :loading="loading"
+        :columns="columns"
+        :rows="rows"
+        :rows-per-page-options="[10, 25, 50]"
+        @request="fetchItems"
+        binary-state-sort
+      >
         <template v-slot:loading>
           <q-inner-loading showing color="red" />
         </template>
 
         <template #top>
           <div class="col">
-            <div class="row q-my-sm items-center">
-              <q-btn color="primary" icon="add" @click="router.get(route('admin.client.add'))" label="Baru">
-                <q-tooltip>Klien Baru</q-tooltip>
-              </q-btn>
-              <q-space />
-              <q-input dense debounce="300" v-model="filter.search" placeholder="Cari" clearable>
+            <div class="row q-mt-xs q-mb-md q-col-gutter-xs items-center">
+              <div class="col-auto">
+                <q-btn
+                  color="primary"
+                  icon="add"
+                  @click="router.get(route('admin.client.add'))"
+                  label="Baru"
+                >
+                  <q-tooltip>Klien Baru</q-tooltip>
+                </q-btn>
+              </div>
+              <q-space class="col-auto" />
+              <q-select
+                v-model="filter.status"
+                class="custom-select col-12 col-sm-2"
+                :options="statuses"
+                label="Status"
+                dense
+                map-options
+                emit-value
+                outlined
+                flat
+                style="min-width: 150px"
+                @update:model-value="onFilterChange"
+              />
+              <q-input
+                class="col-12 col-sm-2"
+                dense
+                debounce="300"
+                v-model="filter.search"
+                placeholder="Cari"
+                clearable
+                outlined
+              >
                 <template v-slot:append>
                   <q-icon name="search" />
                 </template>
               </q-input>
-            </div>
-            <div class="row q-my-sm q-gutter-sm items-center">
-              <span>Filter:</span>
-              <q-select v-model="filter.status" class="custom-select" :options="statuses" label="Status" dense
-                map-options emit-value outlined flat style="min-width: 150px;" @update:model-value="onFilterChange" />
             </div>
           </div>
         </template>
@@ -126,7 +182,7 @@ const deleteItem = (row) => handleDelete({
         </template>
 
         <template v-slot:body="props">
-          <q-tr :props="props" :class="(!props.row.active) ? 'bg-red-1' : ''">
+          <q-tr :props="props" :class="!props.row.active ? 'bg-red-1' : ''">
             <q-td key="name" :props="props">
               {{ props.row.name }}
             </q-td>
@@ -139,11 +195,28 @@ const deleteItem = (row) => handleDelete({
             <q-td key="email" :props="props">
               {{ props.row.email }}
             </q-td>
-            <q-td key="action" class="q-gutter-x-sm" :props="props" align="center">
-              <q-btn rounded dense flat @click="router.get(route('admin.client.edit', props.row.id))" icon="edit">
+            <q-td
+              key="action"
+              class="q-gutter-x-sm"
+              :props="props"
+              align="center"
+            >
+              <q-btn
+                rounded
+                dense
+                flat
+                @click="router.get(route('admin.client.edit', props.row.id))"
+                icon="edit"
+              >
                 <q-tooltip>Edit Klien</q-tooltip>
               </q-btn>
-              <q-btn rounded dense flat icon="delete" @click="deleteItem(props.row)">
+              <q-btn
+                rounded
+                dense
+                flat
+                icon="delete"
+                @click="deleteItem(props.row)"
+              >
                 <q-tooltip>Hapus Klien</q-tooltip>
               </q-btn>
             </q-td>
