@@ -5,6 +5,7 @@ import { computed, onMounted, reactive } from "vue";
 import { ref } from "vue";
 import { Notify, Dialog } from "quasar";
 import { defineEmits } from "vue";
+import { onUnmounted } from "vue";
 
 const emit = defineEmits(["timerSessionEnded"]);
 
@@ -34,6 +35,10 @@ onMounted(async () => {
   Notify.create("Sesi telah dilanjutkan.");
 });
 
+onUnmounted(() => {
+  clearInterval(timerId.value);
+  clearInterval(syncTimerId.value);
+});
 // CALLBACKS //
 
 const syncTimer = async () => {
@@ -107,6 +112,7 @@ const cancelTimer = () => {
     await axios
       .post(route("admin.time-tracker.cancel"), { id: data.id })
       .catch(_catchError);
+    _resetState();
     Notify.create("Timer dibatalkan.");
   });
 };
@@ -122,6 +128,7 @@ const _startTimer = () => {
 
   syncTimerId.value = setInterval(syncTimer, 1000 * 60);
 };
+
 const _resetState = () => {
   Object.assign(data, initialData);
   clearInterval(timerId.value);
@@ -141,7 +148,6 @@ const _catchError = (error) => {
   if (message.length > 0) {
     Notify.create({ message: message, color: "red" });
   }
-  console.log(error);
 };
 </script>
 <template>
@@ -152,9 +158,8 @@ const _catchError = (error) => {
           dense
           outlined
           label="Uraian Pekerjaan"
-          class="col-12 col-sm-6"
+          class="col-12 col-md-6"
           v-model="data.title"
-          square
           @update:model-value="update"
           debounce="300"
           style="min-width: 150px"
@@ -162,7 +167,7 @@ const _catchError = (error) => {
         <q-select
           dense
           label="Proyek"
-          class="col-12 col-sm-2 custom-select"
+          class="col-12 col-md-2 custom-select"
           outlined
           :options="projects"
           map-options
@@ -171,26 +176,24 @@ const _catchError = (error) => {
           clearable
           @update:model-value="update"
           style="min-width: 150px"
-          square
         />
         <q-input
           dense
           outlined
           label="Durasi"
-          class="col-12 col-sm-2"
+          class="col-12 col-md-2"
           readonly
           v-model="formattedDuration"
-          square
         />
-        <div class="col-12 col-sm-2">
+        <div class="col-12 col-md-2">
           <div class="row">
-            <q-btn class="col"
+            <q-btn
+              class="col"
               :label="!timerId ? 'MULAI' : 'SELESAI'"
               :color="!timerId ? 'primary' : 'negative'"
               @click="!timerId ? startTimer() : stopTimer()"
-              style="width: 100px;height:40px;"
+              style="width: 100px; height: 40px; border-top-right-radius: 0%; border-bottom-right-radius: 0%;"
               v-ripple
-              square
             />
             <q-btn
               class="col-auto"
@@ -200,15 +203,15 @@ const _catchError = (error) => {
               dense
               :disabled="!timerId"
               color="grey"
-              style="height:40px;width:30px;border:1px solid #ddd;"
-              square
+              style="
+                height: 40px;
+                width: 30px;
+                border: 1px solid #ddd;
+                border-top-left-radius: 0%;
+                border-bottom-left-radius: 0%;
+              "
             >
-              <q-menu
-                square
-                v-model="showMenu"
-                anchor="bottom right"
-                self="top right"
-              >
+              <q-menu v-model="showMenu" anchor="bottom right" self="top right">
                 <q-list style="width: 150px">
                   <q-item clickable v-ripple v-close-popup @click="cancelTimer">
                     <q-item-section>Batalkan</q-item-section>

@@ -62,7 +62,9 @@ const columns = [
 onMounted(() => {
   const savedFilter = localStorage.getItem("fixsync.project.filter");
   if (savedFilter) {
+    // ini akan mentrigger fetchItems
     Object.assign(filter, JSON.parse(savedFilter));
+    return;
   }
   fetchItems();
 });
@@ -137,7 +139,7 @@ const deleteItem = (row) =>
                   <q-tooltip>Proyek Baru</q-tooltip>
                 </q-btn>
               </div>
-              <q-space />
+              <q-space v-show="$q.screen.gt.xs" />
               <q-select
                 class="col-12 col-sm-2 custom-select"
                 v-model="filter.status"

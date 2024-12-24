@@ -7,7 +7,6 @@ const title = "Time Tracker";
 const timeEntriesRef = ref(null);
 
 const handleTimerSessionEnded = () => {
-  console.log("Timer session ended");
   timeEntriesRef.value.fetchItems();
 };
 

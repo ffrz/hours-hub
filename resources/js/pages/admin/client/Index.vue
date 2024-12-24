@@ -69,7 +69,9 @@ const columns = [
 onMounted(() => {
   const savedFilter = localStorage.getItem("fixsync.client.filter");
   if (savedFilter) {
+    // ini akan mentrigger fetchItems
     Object.assign(filter, JSON.parse(savedFilter));
+    return;
   }
   fetchItems();
 });

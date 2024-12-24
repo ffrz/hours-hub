@@ -1,7 +1,7 @@
 <script setup>
 import { onMounted, reactive, ref, watch } from "vue";
 import { useQuasar } from "quasar";
-import { handleFetchItems, handleDelete } from "@/helpers/client-req-handler";
+import { handleFetchItems } from "@/helpers/client-req-handler";
 import { create_options_v2, format_duration } from "@/helpers/utils";
 import axios from "axios";
 
@@ -80,8 +80,11 @@ const columns = [
 onMounted(() => {
   const savedFilter = localStorage.getItem("fixsync.time-entries.filter");
   if (savedFilter) {
+    // ini akan mentrigger fetchItems
     Object.assign(filter, JSON.parse(savedFilter));
+    return;
   }
+
   fetchItems();
 });
 
@@ -114,6 +117,8 @@ const fetchItems = (props = null) => {
     ];
   });
 };
+
+defineExpose({ fetchItems });
 </script>
 
 <template>
@@ -171,7 +176,7 @@ const fetchItems = (props = null) => {
               flat
               @update:model-value="onFilterChange"
             />
-            <q-space />
+            <q-space v-show="$q.screen.gt.xs" />
             <q-input
               class="col-12 col-sm-2"
               dense
