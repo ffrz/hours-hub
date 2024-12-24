@@ -1,4 +1,22 @@
 {
+  "_components-!~{004}~.js": {
+    "file": "assets/components-C-RmfVh1.css",
+    "src": "_components-!~{004}~.js"
+  },
+  "_components-22UHNOyV.js": {
+    "file": "assets/components-22UHNOyV.js",
+    "name": "components",
+    "imports": [
+      "_vendor-DulykjsL.js"
+    ],
+    "css": [
+      "assets/components-C-RmfVh1.css"
+    ]
+  },
+  "_vendor-DulykjsL.js": {
+    "file": "assets/vendor-DulykjsL.js",
+    "name": "vendor"
+  },
   "node_modules/@quasar/extras/fontawesome-v6/fa-brands-400.ttf": {
     "file": "assets/fa-brands-400-CArp7j8S.ttf",
     "src": "node_modules/@quasar/extras/fontawesome-v6/fa-brands-400.ttf"
@@ -53,12 +71,16 @@
     "isEntry": true
   },
   "resources/js/app.js": {
-    "file": "assets/app-CwRUgI_f.js",
+    "file": "assets/app-CKOOc9lY.js",
     "name": "app",
     "src": "resources/js/app.js",
     "isEntry": true,
+    "imports": [
+      "_components-22UHNOyV.js",
+      "_vendor-DulykjsL.js"
+    ],
     "css": [
-      "assets/app-Cz0FT6C9.css"
+      "assets/app-FI9Vs5ur.css"
     ],
     "assets": [
       "assets/flUhRq6tzZclQEJ-Vdg-IuiaDsNcIhQ8tQ-D-x-0Q06.woff2",

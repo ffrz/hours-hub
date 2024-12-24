@@ -20,6 +20,8 @@ const page = usePage();
 const projects = create_options_v2(page.props.projects, "id", "name");
 const showMenu = ref(false);
 const data = reactive({ ...initialData });
+const titleHasFocus = ref(false);
+
 let timerId = ref(null);
 let syncTimerId = ref(null);
 
@@ -45,6 +47,11 @@ const syncTimer = async () => {
   const response = await axios.post(route("admin.time-tracker.sync"), {
     id: data.id,
   });
+
+  if (titleHasFocus.value) {
+    // jangan sampai user lagi ngedit tiba-tiba keganti data yang di sync
+    delete response.data.title;
+  }
 
   Object.assign(data, response.data);
 };
@@ -149,6 +156,7 @@ const _catchError = (error) => {
     Notify.create({ message: message, color: "red" });
   }
 };
+
 </script>
 <template>
   <div class="row">
@@ -160,8 +168,10 @@ const _catchError = (error) => {
           label="Uraian Pekerjaan"
           class="col-12 col-md-6"
           v-model="data.title"
+          @focus="titleHasFocus=true"
+          @blur="titleHasFocus=false"
           @update:model-value="update"
-          debounce="300"
+          debounce="1000"
           style="min-width: 150px"
         />
         <q-select
