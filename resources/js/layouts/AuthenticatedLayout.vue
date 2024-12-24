@@ -2,11 +2,13 @@
 import { defineComponent, onMounted, onUnmounted, ref, watch } from "vue";
 import { router, usePage } from "@inertiajs/vue3";
 import { check_role } from "@/helpers/utils";
+import { useQuasar } from "quasar";
 
 defineComponent({
   name: "AuthenticatedLayout",
 });
 
+const $q = useQuasar();
 const page = usePage();
 const leftDrawerOpen = ref(
   JSON.parse(localStorage.getItem("hourshub.layout.left-drawer-open"))
@@ -28,6 +30,11 @@ onMounted(() => {
   leftDrawerOpen.value = JSON.parse(
     localStorage.getItem("hourshub.layout.left-drawer-open")
   );
+
+  // tutup aja drawernya, kan layar kecil kasian user
+  if ($q.screen.lt.md) {
+    leftDrawerOpen.value = false;
+  };
   window.addEventListener("scroll", handleScroll);
 });
 
@@ -61,7 +68,7 @@ onUnmounted(() => {
       </q-toolbar>
     </q-header>
     <q-drawer
-      :breakpoint="768"
+
       v-model="leftDrawerOpen"
       bordered
       class="bg-grey-2"
