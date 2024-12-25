@@ -97,9 +97,9 @@ const columns = [
 onMounted(() => {
   const savedFilter = localStorage.getItem("fixsync.time-entries.filter");
   if (savedFilter) {
-    // ini akan mentrigger fetchItems
+    // ini mungkin akan mentrigger fetchItems, tapi kadang tidak
     Object.assign(filter, JSON.parse(savedFilter));
-    return;
+    // return;
   }
 
   fetchItems();

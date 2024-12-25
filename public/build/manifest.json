@@ -3,8 +3,8 @@
     "file": "assets/components-C-RmfVh1.css",
     "src": "_components-!~{004}~.js"
   },
-  "_components-B7ZRUQxf.js": {
-    "file": "assets/components-B7ZRUQxf.js",
+  "_components-Bt4J0z0V.js": {
+    "file": "assets/components-Bt4J0z0V.js",
     "name": "components",
     "imports": [
       "_vendor-DRojwfnt.js"
@@ -71,12 +71,12 @@
     "isEntry": true
   },
   "resources/js/app.js": {
-    "file": "assets/app-BgVKlVGg.js",
+    "file": "assets/app-9I5QHjXX.js",
     "name": "app",
     "src": "resources/js/app.js",
     "isEntry": true,
     "imports": [
-      "_components-B7ZRUQxf.js",
+      "_components-Bt4J0z0V.js",
       "_vendor-DRojwfnt.js"
     ],
     "css": [

@@ -80,9 +80,8 @@ const columns = [
 onMounted(() => {
   const savedFilter = localStorage.getItem("fixsync.time-entries.filter");
   if (savedFilter) {
-    // ini akan mentrigger fetchItems
     Object.assign(filter, JSON.parse(savedFilter));
-    return;
+    // return; // kadang mengakibatkan gagal fetch
   }
 
   fetchItems();

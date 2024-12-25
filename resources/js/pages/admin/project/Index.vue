@@ -64,7 +64,7 @@ onMounted(() => {
   if (savedFilter) {
     // ini akan mentrigger fetchItems
     Object.assign(filter, JSON.parse(savedFilter));
-    return;
+    // return; // kadang mengakibatkan gagal fetch
   }
   fetchItems();
 });
