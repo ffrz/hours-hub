@@ -142,7 +142,7 @@ const deleteItem = (row) =>
   <i-head :title="title" />
   <authenticated-layout>
     <template #title>{{ title }}</template>
-    <div class="q-px-md">
+    <div class="q-pa-md">
       <q-table
         ref="tableRef"
         flat
@@ -167,7 +167,7 @@ const deleteItem = (row) =>
         </template>
         <template #top>
           <div class="col">
-            <div class="row q-mt-sm q-mb-md q-col-gutter-xs items-center">
+            <div class="row q-mt-xs q-mb-md q-col-gutter-xs items-center">
               <div class="col-auto">
                 <q-btn
                   color="primary"

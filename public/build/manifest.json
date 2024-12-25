@@ -3,18 +3,18 @@
     "file": "assets/components-C-RmfVh1.css",
     "src": "_components-!~{004}~.js"
   },
-  "_components-Bt4J0z0V.js": {
-    "file": "assets/components-Bt4J0z0V.js",
+  "_components-CVXVR-HW.js": {
+    "file": "assets/components-CVXVR-HW.js",
     "name": "components",
     "imports": [
-      "_vendor-DRojwfnt.js"
+      "_vendor-DulykjsL.js"
     ],
     "css": [
       "assets/components-C-RmfVh1.css"
     ]
   },
-  "_vendor-DRojwfnt.js": {
-    "file": "assets/vendor-DRojwfnt.js",
+  "_vendor-DulykjsL.js": {
+    "file": "assets/vendor-DulykjsL.js",
     "name": "vendor"
   },
   "node_modules/@quasar/extras/fontawesome-v6/fa-brands-400.ttf": {
@@ -71,13 +71,13 @@
     "isEntry": true
   },
   "resources/js/app.js": {
-    "file": "assets/app-9I5QHjXX.js",
+    "file": "assets/app-tndO2H7t.js",
     "name": "app",
     "src": "resources/js/app.js",
     "isEntry": true,
     "imports": [
-      "_components-Bt4J0z0V.js",
-      "_vendor-DRojwfnt.js"
+      "_components-CVXVR-HW.js",
+      "_vendor-DulykjsL.js"
     ],
     "css": [
       "assets/app-DApJW3r6.css"

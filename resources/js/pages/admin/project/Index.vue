@@ -128,7 +128,7 @@ const deleteItem = (row) =>
 
         <template #top>
           <div class="col">
-            <div class="row q-mt-sm q-mb-md q-col-gutter-xs items-center">
+            <div class="row q-mt-xs q-mb-md q-col-gutter-xs items-center">
               <div class="col-auto">
                 <q-btn
                   color="primary"
