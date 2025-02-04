@@ -2,7 +2,7 @@
 import { onMounted, reactive, ref, watch } from "vue";
 import { useQuasar } from "quasar";
 import { handleFetchItems, handleDelete } from "@/helpers/client-req-handler";
-import { create_options_v2, format_duration } from "@/helpers/utils";
+import { create_options_v2, format_datetime, format_duration } from "@/helpers/utils";
 import { router, usePage } from "@inertiajs/vue3";
 
 const page = usePage();
@@ -250,10 +250,10 @@ const deleteItem = (row) =>
               {{ props.row.project ? props.row.project.name : "" }}
             </q-td>
             <q-td key="start_time" :props="props">
-              {{ props.row.start_time }}
+              {{ format_datetime(props.row.start_time) }}
             </q-td>
             <q-td key="end_time" :props="props">
-              {{ props.row.end_time ?? "Sedang berjalan" }}
+              {{ props.row.end_time ? format_datetime(props.row.end_time) : "Sedang berjalan" }}
             </q-td>
             <q-td key="duration" :props="props">
               {{

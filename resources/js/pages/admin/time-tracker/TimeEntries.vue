@@ -2,7 +2,7 @@
 import { onMounted, reactive, ref, watch } from "vue";
 import { useQuasar } from "quasar";
 import { handleFetchItems } from "@/helpers/client-req-handler";
-import { create_options_v2, format_duration } from "@/helpers/utils";
+import { create_options_v2, format_datetime, format_duration } from "@/helpers/utils";
 import axios from "axios";
 
 const $q = useQuasar();
@@ -69,12 +69,7 @@ const columns = [
     field: "duration",
     align: "left",
     sortable: true,
-  },
-  {
-    name: "action",
-    label: "Aksi",
-    align: "center",
-  },
+  }
 ];
 
 onMounted(() => {
@@ -208,20 +203,13 @@ defineExpose({ fetchItems });
             {{ props.row.project ? props.row.project.name : "" }}
           </q-td>
           <q-td key="start_time" :props="props">
-            {{ props.row.start_time }}
+            {{ format_datetime(props.row.start_time) }}
           </q-td>
           <q-td key="end_time" :props="props">
-            {{ props.row.end_time }}
+            {{ format_datetime(props.row.end_time) }}
           </q-td>
           <q-td key="duration" :props="props">
             {{ format_duration(props.row.duration) }}
-          </q-td>
-          <q-td
-            key="action"
-            class="q-gutter-x-sm"
-            :props="props"
-            align="center"
-          >
           </q-td>
         </q-tr>
       </template>

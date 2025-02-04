@@ -1,4 +1,5 @@
 import { usePage } from "@inertiajs/vue3";
+import dayjs from "dayjs";
 
 export function format_duration(duration) {
   const durationInt = parseInt(duration);
@@ -49,4 +50,8 @@ export async function scrollToFirstErrorField(ref) {
     element.scrollIntoView({ behavior: 'smooth', block: 'center' });
     element.focus();
   }
+}
+
+export function format_datetime(dt, format = 'DD-MM-YYYY HH:mm:ss') {
+  return dayjs(dt).format(format)
 }
